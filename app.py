@@ -29,7 +29,7 @@ def get_dropbox_client():
 def send_email(recips, subject, body):
     msg = MIMEText(body)
     msg['Subject'] = subject
-    msg['From'] = "wolever@pycon.ca"
+    msg['From'] = "brian@reticulat.us"
     msg['To'] = ", ".join(recips)
 
     # Send the message via our own SMTP server, but don't include the

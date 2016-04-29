@@ -144,7 +144,7 @@ def save_uploaded_file_real(fname_list, fprefix, fobj, filename, schd_id, releas
 
     if not environ.get("NO_DROPBOX"):
         db = get_dropbox_client()
-        share = db.media(res["path"])
+        share = db.share(res["path"])
         send_email(
             [x.strip() for x in os.environ["MAIL_RECIPIENTS"].split(",")],
             "New PyCon slide upload",

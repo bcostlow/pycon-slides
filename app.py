@@ -124,8 +124,8 @@ def write_file(target, fobj):
 
 def save_uploaded_file_real(fname_list, fprefix, fobj, filename, schd_id, release, environ_items):
     fname = fprefix + to_str(os.path.splitext(filename)[1])
+    fname_mail = fname.decode('utf-8').encode('ascii', 'replace') # total hack until I have time to fix encoding
     fname_list.append(fname)
-
     try:
         metadata = "schedule_id: %s\n" %(schd_id, )
         metadata += "release_to: %s\n" %(",".join(release), )
@@ -149,7 +149,7 @@ def save_uploaded_file_real(fname_list, fprefix, fobj, filename, schd_id, releas
             [x.strip() for x in os.environ["MAIL_RECIPIENTS"].split(",")],
             "New PyCon slide upload",
             "\n".join([
-                "New file: %s" %(fname, ),
+                "New file: %s" %(fname_mail, ),
                 "Download: %s" %(share["url"], ),
                 "Original file name: %s" %(filename, ),
             ]),

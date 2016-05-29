@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 from robobrowser import RoboBrowser
 from robobrowser.forms import fields
 
-from schedule import get_schedule
+from pycon_schedule import get_schedule
 
 class SpeakerDeckBrowser(RoboBrowser):
     def __init__(self, email, password, *args, **kwargs):

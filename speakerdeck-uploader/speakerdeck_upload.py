@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# encoding: utf-8
 import os
 import sys
 import shutil
@@ -25,22 +26,21 @@ class SpeakerDeckBrowser(RoboBrowser):
         self.submit_form(form)
 
     def upload(self, path, title, desc=""):
+        path = path.decode('utf-8')
         self.open('https://speakerdeck.com/new')
         s3_form = self.get_form('s3-uploader')
         sd_form = self.get_form('upload_talk')
-
         # The Content-Type parameter seems necessary to get a successful response from S3.
         input = BeautifulSoup('<input name="Content-Type" value="application/pdf">').find("input")
         s3_form.add_field(fields.Input(input))
         s3_form['file'] = open(path, 'rb')
-
         # Had trouble submitting the forms with RoboBrowser, so sneak under and use requests.
         print "Posting %s to S3..." %(path, )
         res = self.session.post(s3_form.action, **s3_form.serialize().to_requests(method='post'))
         sd_form['talk[name]'] = title
         sd_form['talk[description]'] = desc
         sd_form['talk[view_policy]'] = 'public'
-        sd_form['talk[published_at]'] = '2015/04/18'
+        sd_form['talk[published_at]'] = '2016/05/29'
         sd_form['talk[category_id]'] = '7' # programming
         params = sd_form.serialize().to_requests(method='post')
 
@@ -191,8 +191,8 @@ def main():
         copy_deck_to_github(deck)
         copy_deck_to_speakerdeck(browser, deck)
 
-DECK_DIR = "/Users/wolever/Dropbox/Apps/pycon-2015-slides/"
-GITHUB_DIR = "/Users/wolever/code/pycon-2015-slides/"
+DECK_DIR = "/Users/briancostlow/Dropbox/pycon-slides-production"
+GITHUB_DIR = "/Users/briancostlow/pycon/pycon-2016-slides"
 SCHEDULE = {}
 for item in get_schedule():
     SCHEDULE[item["conf_key"]] = item

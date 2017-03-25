@@ -4,7 +4,7 @@ import time
 import json
 import requests
 
-SCHEDULE_JSON_URL = "https://us.pycon.org/2016/schedule/conference.json"
+SCHEDULE_JSON_URL = "https://us.pycon.org/2017/schedule/conference.json"
 
 def _download_schedule(output_file):
     resp = requests.get(SCHEDULE_JSON_URL, verify=False)

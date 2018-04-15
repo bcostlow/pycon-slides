@@ -24,7 +24,7 @@ SCHEDULE_JSON_URL = "https://us.pycon.org/2018/schedule/conference.json"
 SCHEDULE_CACHE_SECONDS = 60 * 60 * 12
 
 def get_dropbox_client():
-    return dropbox.client.DropboxClient(environ["DROPBOX_ACCESS_TOKEN"])
+    return dropbox.Dropbox(environ["DROPBOX_ACCESS_TOKEN"])
 
 def send_email(recips, subject, body):
     msg = MIMEText(body)
@@ -118,7 +118,11 @@ def write_file(target, fobj):
                 f.write(hunk)
         return
     db = get_dropbox_client()
-    res = db.put_file(target, fobj, overwrite=True)
+    print "target: ", target
+    res = db.files_upload(
+        fobj.read(), 
+        "/" + target, 
+        mode=dropbox.files.WriteMode('overwrite', None))
     print target, "-->", res
     return res
 

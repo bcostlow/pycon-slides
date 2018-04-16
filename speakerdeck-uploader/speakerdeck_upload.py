@@ -24,8 +24,10 @@ class SpeakerDeckBrowser(RoboBrowser):
         form['email'].value = self._email
         form['password'].value = self._password
         self.submit_form(form)
+        print(self.response.status_code)
 
     def upload(self, path, title, desc=""):
+        print("Starting upload for {0}".format(path))
         path = path.decode('utf-8')
         self.open('https://speakerdeck.com/new')
         s3_form = self.get_form('s3-uploader')
@@ -35,13 +37,13 @@ class SpeakerDeckBrowser(RoboBrowser):
         s3_form.add_field(fields.Input(input))
         s3_form['file'] = open(path, 'rb')
         # Had trouble submitting the forms with RoboBrowser, so sneak under and use requests.
-        print "Posting %s to S3..." %(path, )
+        print "Posting %s to S3..." % (path, )
         res = self.session.post(s3_form.action, **s3_form.serialize().to_requests(method='post'))
         sd_form['talk[name]'] = title
         sd_form['talk[description]'] = desc
         sd_form['talk[view_policy]'] = 'public'
-        sd_form['talk[published_at]'] = '2016/05/29'
-        sd_form['talk[category_id]'] = '7' # programming
+        sd_form['talk[published_at]'] = '2017/05/21'
+        sd_form['talk[category_id]'] = '7'  # programming
         params = sd_form.serialize().to_requests(method='post')
 
         # For some reason, this field seems to be set by JS somewhere.
@@ -182,6 +184,7 @@ def main():
     browser = SpeakerDeckBrowser(user, password)
     browser.login()
     deck_groups = load_decks()
+    print(len(deck_groups))
     #summarize_decks(decks)
     for id, decks in deck_groups.items():
         released = [ d for d in decks if d.released ]
@@ -191,8 +194,8 @@ def main():
         copy_deck_to_github(deck)
         copy_deck_to_speakerdeck(browser, deck)
 
-DECK_DIR = "/Users/briancostlow/Dropbox/pycon-slides-production"
-GITHUB_DIR = "/Users/briancostlow/pycon/pycon-2016-slides"
+DECK_DIR = "addme"
+GITHUB_DIR = "addme"
 SCHEDULE = {}
 for item in get_schedule():
     SCHEDULE[item["conf_key"]] = item

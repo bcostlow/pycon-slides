@@ -21,3 +21,5 @@ node_modules/
 .environ
 cache/
 speakerdeck-uploader/login.txt
+speakerdeck-uploader/schedule.json
+

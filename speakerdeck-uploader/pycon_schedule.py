@@ -4,7 +4,7 @@ import time
 import json
 import requests
 
-SCHEDULE_JSON_URL = "https://us.pycon.org/2017/schedule/conference.json"
+SCHEDULE_JSON_URL = "https://us.pycon.org/2018/schedule/conference.json"
 
 def _download_schedule(output_file):
     resp = requests.get(SCHEDULE_JSON_URL, verify=False)
@@ -26,113 +26,4 @@ def _get_schedule():
 
 def get_schedule():
     schedule = _get_schedule()
-    return [
-        {
-            "abstract": "",
-            "authors": [
-                "Lorena Barba",
-            ],
-            "conf_key": 100000,
-            "contact": [],
-            "description": "Keynote",
-            "duration": 40,
-            "start": "2016-05-30T09:30:00",
-            "end": "2016-05-30T010:10:00",
-            "kind": "keynote",
-            "license": "CC",
-            "name": "Keynote",
-            "released": True,
-            "room": "Keynote",
-            "tags": ""
-        },
-        {
-            "abstract": "",
-            "authors": [
-                "Guido van Rossum",
-            ],
-            "conf_key": 100000,
-            "contact": [],
-            "description": "Python Language",
-            "duration": 40,
-            "start": "2016-05-31T09:00:00",
-            "end": "2016-05-31T009:40:00",
-            "kind": "keynote",
-            "license": "CC",
-            "name": "Python Language",
-            "released": True,
-            "room": "Keynote",
-            "tags": ""
-        },
-        {
-            "abstract": "",
-            "authors": [
-                "Parisa Tabriz",
-            ],
-            "conf_key": 100000,
-            "contact": [],
-            "description": "Keynote",
-            "duration": 40,
-            "start": "2016-05-31T09:40:00",
-            "end": "2016-05-31T010:20:00",
-            "kind": "keynote",
-            "license": "CC",
-            "name": "Keynote",
-            "released": True,
-            "room": "Keynote",
-            "tags": ""
-        },
-        {
-            "abstract": "",
-            "authors": [
-                "Van Lindberg",
-            ],
-            "conf_key": 100000,
-            "contact": [],
-            "description": "Python Software Foundation",
-            "duration": 20,
-            "start": "2016-06-01T09:00:00",
-            "end": "2016-06-01T009:20:00",
-            "kind": "keynote",
-            "license": "CC",
-            "name": "Python Software Foundation",
-            "released": True,
-            "room": "Keynote",
-            "tags": ""
-        },
-        {
-            "abstract": "",
-            "authors": [
-                "Cris Ewing",
-            ],
-            "conf_key": 100000,
-            "contact": [],
-            "description": "Keynote",
-            "duration": 40,
-            "start": "2016-06-01T09:20:00",
-            "end": "2016-06-01T010:00:00",
-            "kind": "keynote",
-            "license": "CC",
-            "name": "Keynote",
-            "released": True,
-            "room": "Keynote",
-            "tags": ""
-        },
-        {
-            "abstract": "",
-            "authors": [
-                "K Lars Lohn",
-            ],
-            "conf_key": 100000,
-            "contact": [],
-            "description": "Keynote",
-            "duration": 40,
-            "start": "2016-06-01T15:10:00",
-            "end": "2016-06-01T015:50:00",
-            "kind": "keynote",
-            "license": "CC",
-            "name": "Keynote",
-            "released": True,
-            "room": "Keynote",
-            "tags": ""
-        },
-    ] + schedule
+    return schedule

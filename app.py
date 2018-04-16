@@ -20,11 +20,11 @@ Undefined = object()
 app = Flask(__name__)
 
 fscache = FSCache("cache/", "cache")
-SCHEDULE_JSON_URL = "https://us.pycon.org/2017/schedule/conference.json"
+SCHEDULE_JSON_URL = "https://us.pycon.org/2018/schedule/conference.json"
 SCHEDULE_CACHE_SECONDS = 60 * 60 * 12
 
 def get_dropbox_client():
-    return dropbox.client.DropboxClient(environ["DROPBOX_ACCESS_TOKEN"])
+    return dropbox.Dropbox(environ["DROPBOX_ACCESS_TOKEN"])
 
 def send_email(recips, subject, body):
     msg = MIMEText(body)
@@ -118,7 +118,11 @@ def write_file(target, fobj):
                 f.write(hunk)
         return
     db = get_dropbox_client()
-    res = db.put_file(target, fobj, overwrite=True)
+    print "target: ", target
+    res = db.files_upload(
+        fobj.read(), 
+        "/" + target, 
+        mode=dropbox.files.WriteMode('overwrite', None))
     print target, "-->", res
     return res
 
@@ -144,13 +148,13 @@ def save_uploaded_file_real(fname_list, fprefix, fobj, filename, schd_id, releas
 
     if not environ.get("NO_DROPBOX"):
         db = get_dropbox_client()
-        share = db.share(res["path"])
+        share = db.sharing_create_shared_link(res.path_lower)
         send_email(
             [x.strip() for x in os.environ["MAIL_RECIPIENTS"].split(",")],
             "New PyCon slide upload",
             "\n".join([
                 "New file: %s" %(fname_mail, ),
-                "Download: %s" %(share["url"], ),
+                "Download: %s" %(share.url, ),
                 "Original file name: %s" %(filename, ),
             ]),
         )

@@ -148,13 +148,13 @@ def save_uploaded_file_real(fname_list, fprefix, fobj, filename, schd_id, releas
 
     if not environ.get("NO_DROPBOX"):
         db = get_dropbox_client()
-        share = db.share(res["path"])
+        share = db.sharing_create_shared_link(res.path_lower)
         send_email(
             [x.strip() for x in os.environ["MAIL_RECIPIENTS"].split(",")],
             "New PyCon slide upload",
             "\n".join([
                 "New file: %s" %(fname_mail, ),
-                "Download: %s" %(share["url"], ),
+                "Download: %s" %(share.url, ),
                 "Original file name: %s" %(filename, ),
             ]),
         )
